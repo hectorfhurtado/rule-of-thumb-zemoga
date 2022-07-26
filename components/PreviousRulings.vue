@@ -13,7 +13,7 @@ function updateVote( vote, name )
 </script>
 
 <template>
-  <div>
+  <div v-if="pollStore.data.length > 0">
     <div class="flex justify-between items-center">
         <h3 class="text-gray-600 text-[28px] md:text-[24px] md:leading-[28.8px] xl:text-[45px] font-light leading-7">Previous Rulings</h3>
 
