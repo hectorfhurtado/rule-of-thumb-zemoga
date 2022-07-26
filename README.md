@@ -6,7 +6,7 @@ This is my implementation of the excercise posted in [Github](https://github.com
 
 In order to run this project, please install all the dependencies as outlined in **Setup** below, then bundle the application as commented in **Running bundled application** section. In the browser go to http://localhost:3000.
 
-All mocked data is coming from `data.json` file located in the project root folder (there is a copy of this file inside `public/data.json` in case the initial data is needed). This data populates the Pinia store and is updated every time a vote is performed. For this, I'm using a couple of API endpoints inside `server/api` folder.
+All mocked data is coming from `public/data.json` file (there is a copy of this file in the root project as `data.json` in case the initial data is needed). This data populates the Pinia store and is updated every time a vote is performed. For this, I'm using a couple of API endpoints inside `server/api` folder.
 
 There are only two components for handling all the cards and cards layout inside `components/` folder.
 
