@@ -13,8 +13,8 @@ function updateVote( vote, name )
   <div>
     <h3 class="mb-6 text-gray-600 text-[28px] font-light leading-7">Previous Rulings</h3>
 
-    <div class="cards-container">
-        <Card v-for="(dato, index) in pollStore.data" :key="index" 
+    <div class="cards-container flex flex-row w-full gap-3 overflow-x-auto snap-x snap-mandatory touch-pan-x">
+        <Card v-for="(dato, index) in pollStore.data" :key="index" class="w-full max-w-[80vw] shrink-0 snap-center"
             :name="dato.name"
             :description="dato.description"
             :category="dato.category"

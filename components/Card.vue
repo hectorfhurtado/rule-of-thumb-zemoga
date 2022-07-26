@@ -42,7 +42,7 @@ function voteAction()
     <div class="card w-full relative flex flex-col">
         <img :src="imageSrc" alt="elon" class="pointer-none">
 
-        <div class="absolute bottom-0 w-full">
+        <div class="absolute bottom-0 w-full bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0.0001)]">
             <div class="flex flex-col">
 
                 <!-- PERSON INFO -->
@@ -62,7 +62,7 @@ function voteAction()
                     <div class="ml-1.5">
                         <h6 class="text-white text-3xl">{{ props.name }}</h6>
 
-                        <p class="text-white mt-1.5 text-[15px]">{{ props.description }}</p>
+                        <p class="text-white mt-1.5 text-[15px] text-ellipsis">{{ props.description }}</p>
                     </div>
                 </div>
                 
