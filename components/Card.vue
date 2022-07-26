@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 interface PersonVotes 
 {
-    name:          string
-    description:   string
-    category:      string
-    picture:       string
-    lastUpdated:   string
-    votesPositive: number
-    votesNegative: number
+    name:           string
+    description:    string
+    category:       string
+    picture:        string
+    lastUpdated:    string
+    votesPositive:  number
+    votesNegative:  number
+    layoutSelected: 'Grid' | 'List'
 }
 
 const props = defineProps<PersonVotes>()
@@ -15,16 +16,16 @@ const emit  = defineEmits<{
     ( e: 'vote', vote: string, name: string ): void
 }>()
 
-
 const vote  = ref( null )
 const voted = ref( false )
 
-const timeAgo            = computed(() => useTimeAgo( new Date( props.lastUpdated  )))
-const imageSrc           = computed(() => `/img/${ props.picture }`)
-const percentagePositive = computed(() => ( props.votesPositive / ( props.votesPositive + props.votesNegative )) * 100 )
-const percentageNegative = computed(() => 100 - percentagePositive.value )
-const isPositive         = computed(() => percentagePositive.value > percentageNegative.value )
-const isNegative         = computed(() => percentagePositive.value < percentageNegative.value )
+const timeAgo              = computed(() => useTimeAgo( new Date( props.lastUpdated  )))
+const imageSrc             = computed(() => `/img/${ props.picture }`)
+const percentagePositive   = computed(() => ( props.votesPositive / ( props.votesPositive + props.votesNegative )) * 100 )
+const percentageNegative   = computed(() => 100 - percentagePositive.value )
+const isPositive           = computed(() => percentagePositive.value > percentageNegative.value )
+const isNegative           = computed(() => percentagePositive.value < percentageNegative.value )
+const isListLayoutSelected = computed(() => props.layoutSelected === 'List' )
 
 function voteAction()
 {
@@ -39,14 +40,22 @@ function voteAction()
 </script>
 
 <template>
-    <div class="card w-full relative flex flex-col">
-        <img :src="imageSrc" alt="elon" class="pointer-none">
+    <div class="card w-full relative flex flex-col md:overflow-hidden">
+        <img 
+            :alt="name" 
+            class="pointer-none" 
+            :src="imageSrc" 
+            :class="{ 'md:absolute md:left-[-27px] md:z-0 md:w-[216px] md:h-full md:object-cover md:object-left': isListLayoutSelected }"
+        >
 
-        <div class="absolute bottom-0 w-full bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0.0001)]">
-            <div class="flex flex-col">
+        <div 
+            class="absolute bottom-0 w-full bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0.0001)]" 
+            :class="{ 'md:static md:z-10 md:bg-card-list-gradient': isListLayoutSelected }"
+        >
+            <div class="flex flex-col" :class="{ 'md:flex-row md:flex-wrap': isListLayoutSelected }">
 
                 <!-- PERSON INFO -->
-                <div class="flex mr-[35px]">
+                <div class="flex mr-[35px]" :class="{ 'md:mr-0 md:shrink md:w-[calc(100%-234px)]': isListLayoutSelected }">
                     <div 
                         class="bg-[#FBBD4A] w-[30px] h-[30px] flex items-center justify-center shrink-0"
                         :class="{ hidden: isPositive }"
@@ -59,17 +68,17 @@ function voteAction()
                     >
                         <img src="/img/thumbs-up.svg" alt="Thumbs up icon" />
                     </div>
-                    <div class="ml-1.5">
-                        <h6 class="text-white text-3xl">{{ props.name }}</h6>
+                    <div class="ml-1.5" :class="{ 'md:ml-[120px]': isListLayoutSelected }">
+                        <h6 class="text-white text-3xl" :class="{ 'text-[28px]': isListLayoutSelected }">{{ name }}</h6>
 
-                        <p class="text-white mt-1.5 text-[15px] text-ellipsis">{{ props.description }}</p>
+                        <p class="text-white mt-1.5 text-[15px] text-ellipsis" :class="{ 'md:mt-5': isListLayoutSelected }">{{ description }}</p>
                     </div>
                 </div>
                 
                 <!-- LAST UPDATED AND CALL TO ACTION -->
-                <div class="mt-3 mr-[35px]">
+                <div class="mt-3 mr-[35px]" :class="{ 'md:mr-4 md:w-[191px] md:ml-auto': isListLayoutSelected }">
                     <p class="text-white text-right font-xs font-bold">
-                        <span :class="{ hidden: voted }">{{ timeAgo.value.replace('"', '') }} in <span class="capitalize">{{ props.category }}</span></span>
+                        <span :class="{ hidden: voted }">{{ timeAgo.value.replace('"', '') }} in <span class="capitalize">{{ category }}</span></span>
                         <span :class="{ hidden: !voted }">Thank you for voting!</span>
                     </p>
                     
@@ -106,7 +115,7 @@ function voteAction()
                 </div>
 
                 <!-- POLL STATISTICS -->
-                <div class="mt-3 h-[36px] relative flex">
+                <div class="mt-3 h-[36px] relative flex w-full" :class="{ 'md:mt-5': isListLayoutSelected }">
                     <div 
                         class="bg-[rgba(60,187,180,0.6)] w-full h-full max-w-[var(--negative-total)]" 
                         :style="{ '--negative-total': `${ percentagePositive }%`}"
@@ -116,11 +125,11 @@ function voteAction()
                         :style="{ '--positive-total': `${ percentageNegative }%`}"
                     ></div>
 
-                    <div class="absolute left-3 top-2.5 flex items-center">
+                    <div class="absolute left-3 top-1.5 flex items-center">
                         <img src="/img/thumbs-up.svg" alt="Thumbs up icon" />
                         <p class="text-white text-lg ml-1.5">{{ percentagePositive.toFixed( 1 )}}%</p>
                     </div>
-                    <div class="absolute right-3 top-2.5 flex items-center">
+                    <div class="absolute right-3 top-1.5 flex items-center">
                         <img src="/img/thumbs-down.svg" alt="Thumbs down icon" />
                         <p class="text-white text-lg ml-1.5">{{ percentageNegative.toFixed( 1 )}}%</p>
                     </div>
