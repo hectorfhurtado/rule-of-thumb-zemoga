@@ -106,7 +106,12 @@ function voteAction()
                     <div class="flex justify-end gap-[12px] items-center mt-3">
                         <button 
                             class="bg-[rgba(60,187,180,0.8)] w-[30px] h-[30px] flex items-center justify-center shrink-0 border-white"
-                            :class="{ 'border-2': vote === 'up', hidden: voted, 'xl:w-[45px] xl:h-[45px]': isListLayoutSelected }"
+                            :class="
+                                { 
+                                    'border-2': vote === 'up', 
+                                    hidden: voted, 
+                                    'xl:w-[45px] xl:h-[45px]': isListLayoutSelected 
+                                }"
                             @click="vote = 'up'"
                         >
                             <img 
@@ -117,7 +122,12 @@ function voteAction()
                         </button>
                         <button 
                             class="bg-[#FBBD4A] w-[30px] h-[30px] flex items-center justify-center shrink-0 border-white"
-                            :class="{ 'border-2': vote === 'down', hidden: voted, 'xl:w-[45px] xl:h-[45px]': isListLayoutSelected }"
+                            :class="
+                                { 
+                                    'border-2': vote === 'down', 
+                                    hidden: voted, 
+                                    'xl:w-[45px] xl:h-[45px]': isListLayoutSelected 
+                                }"
                             @click="vote = 'down'"
                         >
                             <img   
@@ -147,11 +157,11 @@ function voteAction()
                 <div class="mt-3 h-[36px] relative flex w-full" :class="{ 'md:mt-5': isListLayoutSelected }">
                     <div 
                         class="bg-[rgba(60,187,180,0.6)] w-full h-full max-w-[var(--negative-total)]" 
-                        :style="{ '--negative-total': `${ percentagePositive }%`}"
+                        :style="{ '--negative-total': `${ percentagePositive }%` }"
                     ></div>
                     <div 
                         class="bg-[rgba(249,173,29,0.6)] w-full h-full max-w-[var(--positive-total)]" 
-                        :style="{ '--positive-total': `${ percentageNegative }%`}"
+                        :style="{ '--positive-total': `${ percentageNegative }%` }"
                     ></div>
 
                     <div class="absolute left-3.5 top-1.5 xl:top-0.5 flex items-center">

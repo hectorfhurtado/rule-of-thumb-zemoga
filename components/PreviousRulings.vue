@@ -6,7 +6,7 @@ const pollStore = usePollStore()
 const layoutSelected = ref<'List' | 'Grid'>( 'Grid' )
 const layoutList     = computed(() => layoutSelected.value === 'List' ? [ 'md:flex', 'md:flex-col' ] : [ 'md:grid md:grid-cols-2 xl:grid-cols-3' ])
 
-function updateVote( vote, name )
+function updateVote( vote: string, name: string )
 {
     pollStore.addVote( name, vote )
 }
@@ -18,10 +18,21 @@ function updateVote( vote, name )
         <h3 class="text-gray-600 text-[28px] md:text-[24px] md:leading-[28.8px] xl:text-[45px] font-light leading-7">Previous Rulings</h3>
 
         <div class="hidden md:block relative">
-            <img src="/img/triangle.svg" alt="triangle icon" class="absolute top-[10px] xl:top-[14px] right-[14px] pointer-events-none">
+            <img 
+                src="/img/triangle.svg" 
+                alt="triangle icon" 
+                class="absolute top-[10px] xl:top-[14px] right-[14px] pointer-events-none"
+            >
+
             <select 
                 v-model="layoutSelected"
-                class="text-[rgba(51,51,51,1)] border-2 border-[rgba(51,51,51,1)] w-[131px] xl:w-[173px] text-center text-[10.5px] xl:text-[13.5px] h-[28px] md:h-[28px] xl:h-[36px] appearance-none" 
+                class="
+                    w-[131px] xl:w-[173px] 
+                    h-[28px] md:h-[28px] xl:h-[36px] 
+                    border-2 border-[rgba(51,51,51,1)] 
+                    text-[rgba(51,51,51,1)] text-center text-[10.5px] xl:text-[13.5px] 
+                    appearance-none
+                " 
             >
                 <option>List</option>
                 <option selected>Grid</option>
@@ -34,6 +45,7 @@ function updateVote( vote, name )
             class="flex flex-row w-full gap-4 md:gap-[21px] xl:gap-[27px] overflow-x-auto snap-x snap-mandatory touch-pan-x"
             :class="layoutList"
         >
+            <!-- I COULD PASS DATO AS AN OBJECT BUT IS BETTER TO EXPLICIT ABOUT WHAT THE COMPONENT NEEDS TO WORK -->
             <Card 
                 v-for="(dato, index) in pollStore.data" 
                 :key="index" 

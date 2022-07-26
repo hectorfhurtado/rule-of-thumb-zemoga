@@ -15,9 +15,6 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@nuxtjs/tailwindcss',
     ],
-    autoImports: {
-        dirs: [ 'composables/**' ]
-    },
     app: {
         head: {
             link: [
