@@ -17,13 +17,16 @@ function updateVote( vote, name )
     <div class="flex justify-between items-center">
         <h3 class="text-gray-600 text-[28px] md:text-[24px] md:leading-[28.8px] xl:text-[45px] font-light leading-7">Previous Rulings</h3>
 
-        <select 
-            v-model="layoutSelected"
-            class="hidden md:block text-[rgba(51,51,51,1)] border-2 border-[rgba(51,51,51,1)] w-[131px] xl:w-[173px] text-center text-[10.5px] h-8" 
-        >
-            <option>List</option>
-            <option selected>Grid</option>
-        </select>
+        <div class="hidden md:block relative">
+            <img src="/img/triangle.svg" alt="triangle icon" class="absolute top-[10px] xl:top-[14px] right-[14px] pointer-events-none">
+            <select 
+                v-model="layoutSelected"
+                class="text-[rgba(51,51,51,1)] border-2 border-[rgba(51,51,51,1)] w-[131px] xl:w-[173px] text-center text-[10.5px] xl:text-[13.5px] h-[28px] md:h-[28px] xl:h-[36px] appearance-none" 
+            >
+                <option>List</option>
+                <option selected>Grid</option>
+            </select>
+        </div>
     </div>
 
     <div class="cards-container w-[100vw] md:w-full -mx-4 md:mx-0 mt-6 md:mt-[29px] xl:mt-8">
