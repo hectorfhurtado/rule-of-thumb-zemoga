@@ -36,6 +36,7 @@ function updateVote( vote: string, name: string )
                     text-[rgba(51,51,51,1)] text-center text-[10.5px] xl:text-[13.5px] 
                     appearance-none
                 " 
+                data-testid="layoutSelector"
             >
                 <option>List</option>
                 <option selected>Grid</option>

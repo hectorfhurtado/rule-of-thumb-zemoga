@@ -50,12 +50,13 @@ function voteAction()
 </script>
 
 <template>
-    <div class="card w-full relative flex flex-col md:overflow-hidden">
+    <div class="card w-full relative flex flex-col md:overflow-hidden" data-testid="card">
         <img 
             :alt="name" 
             :src="imageSrc" 
             class="pointer-none" 
             :class="{ 'md:absolute md:left-[-27px] xl:left-0 md:z-0 md:w-[216px] xl:w-[267] md:h-full md:object-cover md:object-left': isListLayoutSelected }"
+            data-testid="cardpersonimage"
         >
 
         <div 
@@ -69,6 +70,7 @@ function voteAction()
                     <div 
                         class="bg-[#FBBD4A] w-[30px] h-[30px] flex items-center justify-center shrink-0 xl:mt-2"
                         :class="{ hidden: isPositive, 'xl:w-[45px] xl:h-[45px] xl:mt-0': isListLayoutSelected }"
+                        data-testid="cardimagethumbicon"
                     >
                         <img 
                             src="/img/thumbs-down.svg" 
@@ -79,6 +81,7 @@ function voteAction()
                     <div 
                         class="bg-[rgba(60,187,180,0.8)] w-[30px] h-[30px] flex items-center justify-center shrink-0 xl:mt-2"
                         :class="{ hidden: isNegative, 'xl:w-[45px] xl:h-[45px] xl:mt-0': isListLayoutSelected }"
+                        data-testid="cardimagethumbicon"
                     >
                         <img 
                             src="/img/thumbs-up.svg" 
@@ -90,6 +93,7 @@ function voteAction()
                         <h6 
                             class="text-white text-3xl xl:text-[36px]" 
                             :class="{ 'text-[28px] xl:leading-[63px]': isListLayoutSelected }"
+                            data-testid="cardname"
                         >
                             {{ name }}
                         </h6>
@@ -97,6 +101,7 @@ function voteAction()
                         <p 
                             class="text-white mt-1.5 text-[15px] md:leading-[18px] xl:leading-[18px] text-ellipsis" 
                             :class="{ 'md:mt-5 xl:mt-0 xl:text-[18px] md:leading-[16.5px] xl:leading-[21.6px]': isListLayoutSelected }"
+                            data-testid="carddescription"
                         >
                             {{ description }}
                         </p>
@@ -108,6 +113,7 @@ function voteAction()
                     <p 
                         class="text-white text-right text-[12px] font-bold" 
                         :class="{ 'xl:text-[15px]': isListLayoutSelected }"
+                        data-testid="cardeyebrow"
                     >
                         <span :class="{ hidden: voted }">{{ timeAgo.value.replace('"', '') }} in <span class="capitalize">{{ category }}</span></span>
                         <span :class="{ hidden: !voted }">Thank you for voting!</span>
@@ -123,6 +129,7 @@ function voteAction()
                                     'xl:w-[45px] xl:h-[45px]': isListLayoutSelected 
                                 }"
                             @click="vote = 'up'"
+                            data-testid="cardvoteup"
                         >
                             <img 
                                 src="/img/thumbs-up.svg" 
@@ -139,6 +146,7 @@ function voteAction()
                                     'xl:w-[45px] xl:h-[45px]': isListLayoutSelected 
                                 }"
                             @click="vote = 'down'"
+                            data-testid="cardvotedown"
                         >
                             <img   
                                 src="/img/thumbs-down.svg" 
@@ -157,6 +165,7 @@ function voteAction()
                             "
                             :disabled="vote === null"
                             @click="voteAction"
+                            data-testid="cardvotenow"
                         >
                             Vote {{ voted ? 'Again' : 'Now' }}
                         </button>
@@ -164,7 +173,7 @@ function voteAction()
                 </div>
 
                 <!-- POLL STATISTICS -->
-                <div class="mt-3 h-[36px] relative flex w-full" :class="{ 'md:mt-5': isListLayoutSelected }">
+                <div class="mt-3 h-[36px] relative flex w-full" :class="{ 'md:mt-5': isListLayoutSelected }" data-testid="cardgauge">
                     <div 
                         class="bg-[rgba(60,187,180,0.6)] w-full h-full max-w-[var(--negative-total)]" 
                         :style="{ '--negative-total': `${ percentagePositive }%` }"

@@ -42,3 +42,13 @@ Locally preview the build:
 ```bash
 npx nuxi preview
 ```
+
+## Running tests
+
+Run the following command
+
+```bash
+npx nuxi test
+```
+
+When Nuxt runs a test, it creates a folder inside `.nuxt`. It should be deleted every time. This is temporal since testing part is still in active development.
