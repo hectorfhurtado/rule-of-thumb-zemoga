@@ -50,13 +50,18 @@ function voteAction()
 </script>
 
 <template>
-    <div class="card w-full relative flex flex-col md:overflow-hidden" data-testid="card">
+    <div 
+        class="card w-full relative flex flex-col md:overflow-hidden" 
+        data-testid="card"
+        aria-description="A card with a person information: His/Her name, a short description, an photo image of that person. This also allows for giving a thumb up or down throught a Vote Now button. At the bottom of this card there are some numbers showing the overall voting is going as percentages"
+    >
         <img 
             :alt="name" 
             :src="imageSrc" 
             class="pointer-none" 
             :class="{ 'md:absolute md:left-[-27px] xl:left-0 md:z-0 md:w-[216px] xl:w-[267] md:h-full md:object-cover md:object-left': isListLayoutSelected }"
             data-testid="cardpersonimage"
+            aria-description="Voted person photo image"
         >
 
         <div 
@@ -94,6 +99,7 @@ function voteAction()
                             class="text-white text-3xl xl:text-[36px]" 
                             :class="{ 'text-[28px] xl:leading-[63px]': isListLayoutSelected }"
                             data-testid="cardname"
+                            aria-description="Name of the person voted"
                         >
                             {{ name }}
                         </h6>
@@ -102,6 +108,7 @@ function voteAction()
                             class="text-white mt-1.5 text-[15px] md:leading-[18px] xl:leading-[18px] text-ellipsis" 
                             :class="{ 'md:mt-5 xl:mt-0 xl:text-[18px] md:leading-[16.5px] xl:leading-[21.6px]': isListLayoutSelected }"
                             data-testid="carddescription"
+                            aria-description="A short description of the person voted"
                         >
                             {{ description }}
                         </p>
@@ -130,6 +137,7 @@ function voteAction()
                                 }"
                             @click="vote = 'up'"
                             data-testid="cardvoteup"
+                            aria-description="Vote Up button. This enables the Vote Now button for voting"
                         >
                             <img 
                                 src="/img/thumbs-up.svg" 
@@ -147,6 +155,7 @@ function voteAction()
                                 }"
                             @click="vote = 'down'"
                             data-testid="cardvotedown"
+                            aria-description="Vote Down button. This enables the Vote Now button for voting"
                         >
                             <img   
                                 src="/img/thumbs-down.svg" 
@@ -166,6 +175,7 @@ function voteAction()
                             :disabled="vote === null"
                             @click="voteAction"
                             data-testid="cardvotenow"
+                            aria-description="Vote Now button. Disabled by default, it's enabled when clicking on Vote up or Down button. Then you can Vote. After voting, you can Vote again clicking this button in order to reset all values." 
                         >
                             Vote {{ voted ? 'Again' : 'Now' }}
                         </button>
@@ -192,6 +202,7 @@ function voteAction()
                         <p 
                             class="text-white text-lg ml-1.5" 
                             :class="{ 'xl:text-[27px]': isListLayoutSelected }" 
+                            aria-description="Percentage of overall positive votes"
                         >
                             {{ percentagePositive.toFixed( 1 )}}%
                         </p>
@@ -200,6 +211,7 @@ function voteAction()
                         <p 
                             class="text-white text-lg mr-1.5" 
                             :class="{ 'xl:text-[27px]': isListLayoutSelected }"
+                            aria-description="Percentage of overall negative votes"
                         >
                             {{ percentageNegative.toFixed( 1 )}}%
                         </p>

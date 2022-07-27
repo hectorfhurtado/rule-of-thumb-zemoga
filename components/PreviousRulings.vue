@@ -27,7 +27,9 @@ function updateVote( vote: string, name: string )
                 class="absolute top-[10px] xl:top-[14px] right-[14px] pointer-events-none"
             >
 
+            <label for="selectLayout" aria-description="Allow for selecting card layout as a List or a Grid but doesn't change the content" class="w-0 h-0 overflow-hidden text-[0px]">Select Layout</label>
             <select 
+                id="selectLayout"
                 v-model="layoutSelected"
                 class="
                     w-[131px] xl:w-[173px] 
