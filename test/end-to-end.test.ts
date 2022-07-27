@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, beforeEach } from 'vitest'
 import { setup, $fetch, createPage } from '@nuxt/test-utils-edge'
 
 describe( 'Homepage tests', async () =>
@@ -108,25 +108,225 @@ describe( 'Homepage tests', async () =>
             expect( await $votenow.isDisabled() ).to.equal( true )
             expect( await $votenow.textContent() ).to.have.string( 'Vote Now' )
         })
+
+        describe( 'when clicking the thumb up button', () => {
+            let $card = null
+
+            beforeEach( async () =>
+            {
+                const html = await createPage( '/' )
+                $card      = await html.locator( 'data-testid=card' )
+            })
+
+
+            test( 'outlines the clicked button with a white border', async () => {
+                const $voteup = await $card.nth( 0 ).locator( 'data-testid=cardvoteup' )
+
+                expect( await $voteup.evaluate( node => node.classList.contains( 'border-2' )) ).to.be.false
+
+                await $voteup.click()
+
+                expect( await $voteup.evaluate( node => node.classList.contains( 'border-2' )) ).to.be.true
+            })
+
+            test( 'enables the Vote Now button', async () => {
+                const $voteup = await $card.nth( 0 ).locator( 'data-testid=cardvoteup' )
+
+                await $voteup.click()
+
+                const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+
+                expect( await $votenow.isDisabled() ).to.be.false
+            })
+
+            describe( 'When clicking the Vote Now button', () => {
+                let gaugeText1 = null
+                let gaugeText2 = null
+
+                beforeEach( async () =>
+                {
+                    gaugeText1 = await $card.nth( 0 ).locator( 'data-testid=cardgauge' ).locator( 'p' ).first().textContent()
+                    gaugeText2 = await $card.nth( 0 ).locator( 'data-testid=cardgauge' ).locator( 'p' ).last().textContent()
+
+                    const $voteup = await $card.nth( 0 ).locator( 'data-testid=cardvoteup' )
+                    await $voteup.click()
+                    
+                    const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+                    await $votenow.click()
+                })
+
+                test( 'hides thumb up and down buttons', async () => {
+                    const $voteup   = await $card.nth( 0 ).locator( 'data-testid=cardvoteup' )
+                    const $votedown = await $card.nth( 0 ).locator( 'data-testid=cardvotedown' )
+
+                    expect( await $voteup.isHidden() ).to.be.true
+                    expect( await $votedown.isHidden() ).to.be.true
+                })
+
+                test( 'changes the eyebrow text for Thank you', async () => {
+                    const $eyebrow = await $card.nth( 0 ).locator( 'data-testid=cardeyebrow' )
+
+                    expect( await $eyebrow.textContent() ).to.have.string( 'Thank you for voting!' )
+                })
+
+                test( 'changes the text from Vote Now to Vote again', async () => {
+                    const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+
+                    expect( await $votenow.textContent() ).to.have.string( 'Vote Again' )
+                })
+
+                test( 'changes the gauge text', async () => {
+                    const $gaugeText1 = await $card.nth( 0 ).locator( 'data-testid=cardgauge' ).locator( 'p' ).first()
+                    const $gaugeText2 = await $card.nth( 0 ).locator( 'data-testid=cardgauge' ).locator( 'p' ).last()
+
+                    expect( await $gaugeText1.textContent() ).to.not.equal( gaugeText1 )
+                    expect( await $gaugeText2.textContent() ).to.not.equal( gaugeText2 )
+                })
+
+                describe( 'when clicking the Vote Again button', () => {
+                    beforeEach( async () =>
+                    {
+                        const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+                        await $votenow.click()
+                    })
+
+                    test( 'shows thumb up and down buttons again', async () => {
+                        const $voteup   = await $card.nth( 0 ).locator( 'data-testid=cardvoteup' )
+                        const $votedown = await $card.nth( 0 ).locator( 'data-testid=cardvotedown' )
+
+                        expect( await $voteup.isVisible() ).to.be.true
+                        expect( await $votedown.isVisible() ).to.be.true
+                    })
+
+                    test( 'updates the eyebrow text', async () => {
+                        const $eyebrow = await $card.nth( 0 ).locator( 'data-testid=cardeyebrow' )
+
+                        expect( await $eyebrow.textContent() ).to.have.string( 'just now in' )
+                    })
+
+                    test( 'disables the Vote Now button', async () => {
+                        const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+
+                        expect( await $votenow.isDisabled() ).to.be.true
+                    })
+
+                    test( 'updates the Vote Now button text to Vote Now', async () => {
+                        const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+
+                        expect( await $votenow.textContent() ).to.have.string( 'Vote Now' )
+                    })
+                })
+            })
+        })
+
+        describe( 'when clicking the thumb down button', () => {
+            let $card = null
+
+            beforeEach( async () =>
+            {
+                const html = await createPage( '/' )
+                $card      = await html.locator( 'data-testid=card' )
+            })
+
+
+            test( 'outlines the clicked button with a white border', async () => {
+                const $votedown = await $card.nth( 0 ).locator( 'data-testid=cardvotedown' )
+
+                expect( await $votedown.evaluate( node => node.classList.contains( 'border-2' )) ).to.be.false
+
+                await $votedown.click()
+
+                expect( await $votedown.evaluate( node => node.classList.contains( 'border-2' )) ).to.be.true
+            })
+
+            test( 'enables the Vote Now button', async () => {
+                const $votedown = await $card.nth( 0 ).locator( 'data-testid=cardvotedown' )
+
+                await $votedown.click()
+
+                const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+
+                expect( await $votenow.isDisabled() ).to.be.false
+            })
+
+            describe( 'When clicking the Vote Now button', () => {
+                let gaugeText1 = null
+                let gaugeText2 = null
+
+                beforeEach( async () =>
+                {
+                    gaugeText1 = await $card.nth( 0 ).locator( 'data-testid=cardgauge' ).locator( 'p' ).first().textContent()
+                    gaugeText2 = await $card.nth( 0 ).locator( 'data-testid=cardgauge' ).locator( 'p' ).last().textContent()
+
+                    const $votedown = await $card.nth( 0 ).locator( 'data-testid=cardvoteup' )
+                    await $votedown.click()
+                    
+                    const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+                    await $votenow.click()
+                })
+
+                test( 'hides thumb up and down buttons', async () => {
+                    const $voteup   = await $card.nth( 0 ).locator( 'data-testid=cardvoteup' )
+                    const $votedown = await $card.nth( 0 ).locator( 'data-testid=cardvotedown' )
+
+                    expect( await $voteup.isHidden() ).to.be.true
+                    expect( await $votedown.isHidden() ).to.be.true
+                })
+
+                test( 'changes the eyebrow text for Thank you', async () => {
+                    const $eyebrow = await $card.nth( 0 ).locator( 'data-testid=cardeyebrow' )
+
+                    expect( await $eyebrow.textContent() ).to.have.string( 'Thank you for voting!' )
+                })
+
+                test( 'changes the text from Vote Now to Vote again', async () => {
+                    const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+
+                    expect( await $votenow.textContent() ).to.have.string( 'Vote Again' )
+                })
+
+                test( 'changes the gauge text', async () => {
+                    const $gaugeText1 = await $card.nth( 0 ).locator( 'data-testid=cardgauge' ).locator( 'p' ).first()
+                    const $gaugeText2 = await $card.nth( 0 ).locator( 'data-testid=cardgauge' ).locator( 'p' ).last()
+
+                    expect( await $gaugeText1.textContent() ).to.not.equal( gaugeText1 )
+                    expect( await $gaugeText2.textContent() ).to.not.equal( gaugeText2 )
+                })
+
+                describe( 'when clicking the Vote Again button', () => {
+                    beforeEach( async () =>
+                    {
+                        const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+                        await $votenow.click()
+                    })
+
+                    test( 'shows thumb up and down buttons again', async () => {
+                        const $voteup   = await $card.nth( 0 ).locator( 'data-testid=cardvoteup' )
+                        const $votedown = await $card.nth( 0 ).locator( 'data-testid=cardvotedown' )
+
+                        expect( await $voteup.isVisible() ).to.be.true
+                        expect( await $votedown.isVisible() ).to.be.true
+                    })
+
+                    test( 'updates the eyebrow text', async () => {
+                        const $eyebrow = await $card.nth( 0 ).locator( 'data-testid=cardeyebrow' )
+
+                        expect( await $eyebrow.textContent() ).to.have.string( 'just now in' )
+                    })
+
+                    test( 'disables the Vote Now button', async () => {
+                        const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+
+                        expect( await $votenow.isDisabled() ).to.be.true
+                    })
+
+                    test( 'updates the Vote Now button text to Vote Now', async () => {
+                        const $votenow = await $card.nth( 0 ).locator( 'data-testid=cardvotenow' )
+
+                        expect( await $votenow.textContent() ).to.have.string( 'Vote Now' )
+                    })
+                })
+            })
+        })
     })
-})
-
-// THESE ARE COMPONENT TESTS, BUT I JUST WROTE THEM TO NOT FORGET WHEN I START CREATING THOSE TESTS
-describe( 'when clicking the thumb up button', () => {
-    test.todo( 'outlines the clicked button with a white border', async () => {})
-    test.todo( 'enables the Vote Now button', async () => {})
-})
-
-describe( 'When clicking the Vote Now button', () => {
-    test.todo( 'hides thumb up and down buttons', async () => {})
-    test.todo( 'changes the eyebrow text for Thank you', async () => {})
-    test.todo( 'changes the text from Vote Now to Vote again', async () => {})
-    test.todo( 'changes the gauge text', async () => {})
-})
-
-describe( 'when clicking the Vote Again button', () => {
-    test.todo( 'shows thumb up and down buttons again', async () => {})
-    test.todo( 'updates the eyebrow text', async () => {})
-    test.todo( 'disables the Vote Now button', async () => {})
-    test.todo( 'updates the Vote Now button text to Vote Now', async () => {})
 })

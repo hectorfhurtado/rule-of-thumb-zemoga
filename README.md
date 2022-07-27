@@ -58,3 +58,7 @@ When Nuxt runs a test, it creates a folder inside `.nuxt`. It should be deleted 
 Using Chrome DevTools SEO audit is above 90%
 
 ![](./public/img/seo-result.png)
+
+End to end tests passed
+
+![](./public/img/end-to-end-tests-passing.png)
