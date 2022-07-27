@@ -6,6 +6,9 @@ const pollStore = usePollStore()
 const layoutSelected = ref<'List' | 'Grid'>( 'Grid' )
 const layoutList     = computed(() => layoutSelected.value === 'List' ? [ 'md:flex', 'md:flex-col' ] : [ 'md:grid md:grid-cols-2 xl:grid-cols-3' ])
 
+/** 
+ * We take the vote (up or down) and the person name and pass it to the store for updating it
+ */
 function updateVote( vote: string, name: string )
 {
     pollStore.addVote( name, vote )

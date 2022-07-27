@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia'
 
+const API_ENDPOINT = '/api/state'
+
 export const usePollStore = defineStore( 'PollStore', 
 {
     state()
     {
-        return { data: [] }
+        return { data: [] }     // We start with an empty state but we populate it later from the endpoint
     }, 
 
     actions: 
@@ -24,17 +26,17 @@ export const usePollStore = defineStore( 'PollStore',
 
             person.lastUpdated = ( new Date() ).toISOString()
 
-            await useFetch( '/api/state',
+            await useFetch( API_ENDPOINT,
             {
                 body:         { data: this.data },
                 method:       'POST',
-                initialCache: false,
+                initialCache: false,    // This allows to make a request everytime there is a new vote
             })
         },
 
         async populateState()
         {
-            const { data } = await useFetch( '/api/state' )
+            const { data } = await useFetch( API_ENDPOINT )
 
             this.data = data.value.data
         },

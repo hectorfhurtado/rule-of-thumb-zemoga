@@ -10,11 +10,11 @@ All mocked data is coming from `public/data.json` file (there is a copy of this 
 
 There are only two components for handling all the cards and cards layout inside `components/` folder.
 
-Provided HTML and CSS files are loaded as part of a layout component inside `layouts/` folder and used in `app.vue` file. This `app.vue` file is the default route since there are no more pages needed for this excercise.
+Provided HTML and CSS files are loaded as part of a layout component inside `layouts/` folder and used in `app.vue` file. This `app.vue` file is the default route since there are no more pages needed for this exercise.
 
 ## Setup
 
-Make sure to install the dependencies:
+Make sure to install all dependencies:
 
 ```bash
 # yarn
@@ -23,7 +23,7 @@ yarn install
 
 ## Development Server
 
-For starting the development server on http://localhost:3000
+For starting the development server on http://localhost:3000 run
 
 ```bash
 npx nuxi dev

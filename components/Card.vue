@@ -16,17 +16,27 @@ const emit  = defineEmits<{
     ( e: 'vote', vote: string, name: string ): void
 }>()
 
-const vote  = ref( null )
-const voted = ref( false )
+const vote  = ref( null )   // Used for enabling/disabling the Vote Now button and updated by the thumbs button
+const voted = ref( false )  // Used for emiting the result of the voting and also to update the eyebrow text and hide/show thumbs buttons
 
 const timeAgo              = computed(() => useTimeAgo( new Date( props.lastUpdated  )))
 const imageSrc             = computed(() => `/img/${ props.picture }`)
+
+// Calculate data as percentages to show in the gauge
 const percentagePositive   = computed(() => ( props.votesPositive / ( props.votesPositive + props.votesNegative )) * 100 )
 const percentageNegative   = computed(() => 100 - percentagePositive.value )
+
+// These are used to show thumbs up or down at the top left of people photo
 const isPositive           = computed(() => percentagePositive.value > percentageNegative.value )
 const isNegative           = computed(() => percentagePositive.value < percentageNegative.value )
+
+// To know if the layout is List or Grid
 const isListLayoutSelected = computed(() => props.layoutSelected === 'List' )
 
+/** 
+ * When Vote Now button is clicked, we toggle the visibility of the eye brow text, the thumbs button and update Vote Now inner text.
+ * We also emit the vote value so the parent component updates the store.
+ */
 function voteAction()
 {
     voted.value = !voted.value
