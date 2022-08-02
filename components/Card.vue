@@ -144,6 +144,7 @@ function voteAction()
                                 alt="Thumbs up icon" 
                                 :class="{ 'xl:w-[24px] xl:h-[24px]': isListLayoutSelected }" 
                             />
+                            <span class="sr-only">Vote Up</span>
                         </button>
                         <button 
                             class="bg-[#FBBD4A] w-[30px] h-[30px] flex items-center justify-center shrink-0 border-white"
@@ -155,13 +156,14 @@ function voteAction()
                                 }"
                             @click="vote = 'down'"
                             data-testid="cardvotedown"
-                            aria-description="Vote Down button. This enables the Vote Now button for voting"
+                            aria-description="This enables the Vote Now button for voting"
                         >
                             <img   
                                 src="/img/thumbs-down.svg" 
                                 alt="Thumbs down icon" 
                                 :class="{ 'xl:w-[24px] xl:h-[24px]': isListLayoutSelected }" 
                             />
+                            <span class="sr-only">Vote Dowb</span>
                         </button>
                         <button 
                             class="
@@ -183,46 +185,11 @@ function voteAction()
                 </div>
 
                 <!-- POLL STATISTICS -->
-                <div class="mt-3 h-[36px] relative flex w-full" :class="{ 'md:mt-5': isListLayoutSelected }" data-testid="cardgauge">
-                    <div 
-                        class="bg-[rgba(60,187,180,0.6)] w-full h-full max-w-[var(--negative-total)]" 
-                        :style="{ '--negative-total': `${ percentagePositive }%` }"
-                    ></div>
-                    <div 
-                        class="bg-[rgba(249,173,29,0.6)] w-full h-full max-w-[var(--positive-total)]" 
-                        :style="{ '--positive-total': `${ percentageNegative }%` }"
-                    ></div>
-
-                    <div class="absolute left-3.5 top-1.5 xl:top-0.5 flex items-center">
-                        <img 
-                            src="/img/thumbs-up.svg" 
-                            alt="Thumbs up icon" 
-                            :class="{ 'xl:w-[22.5px] xl:h-[22.5px]': isListLayoutSelected }" 
-                        />
-                        <p 
-                            class="text-white text-lg ml-1.5" 
-                            :class="{ 'xl:text-[27px]': isListLayoutSelected }" 
-                            aria-description="Percentage of overall positive votes"
-                        >
-                            {{ percentagePositive.toFixed( 1 )}}%
-                        </p>
-                    </div>
-                    <div class="absolute right-3.5 top-1.5 xl:top-0.5 flex items-center">
-                        <p 
-                            class="text-white text-lg mr-1.5" 
-                            :class="{ 'xl:text-[27px]': isListLayoutSelected }"
-                            aria-description="Percentage of overall negative votes"
-                        >
-                            {{ percentageNegative.toFixed( 1 )}}%
-                        </p>
-                        
-                        <img 
-                            src="/img/thumbs-down.svg" 
-                            alt="Thumbs down icon" 
-                            :class="{ 'xl:w-[22.5px] xl:h-[22.5px]': isListLayoutSelected }" 
-                        />
-                    </div>
-                </div>
+                <Gauge 
+                    :votes-positive="votesPositive"
+                    :votes-negative="votesNegative"
+                    :layout-selected="layoutSelected"
+                />
             </div>
         </div>
     </div>
